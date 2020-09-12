@@ -35,7 +35,8 @@ Operation::Operation(Expression *left, Expression *right, OperationType opType) 
 }
 
 bool Operation::isOperationFactorable(Operation *leftOp, Operation *rightOp) {
-    return (*leftOp->left == *rightOp->left
+    return (this->opType != OP_EXP // Since exponentiation isn't distributive.
+            &&*leftOp->left == *rightOp->left
             || *leftOp->left == *rightOp->right
             || *leftOp->right == *rightOp->left
             || *leftOp->right == *rightOp->left);
@@ -114,6 +115,13 @@ Operation *Operation::reduceFactorableOperationExpr(Operation *leftOp, Operation
     // Reducible relationship, ie 5x + 3x = (5 + 3)x = 8x or similar.
     Expression *multiplicandEvaluated = multiplicand->evaluate();
     delete multiplicand; // TODO: Check if this causes a memory error.
+    // If the current operation is multiplication or division, than
+    // the multiplier also changes.
+    if (this->opType == OP_MUL) {
+        same = new Operation(same, new Constant(2), OP_EXP);
+    } else if (this->opType == OP_DIV) {
+        same = new Constant(1);
+    }
     // Now we can construct the new multiplication operation
     return new Operation(multiplicandEvaluated, same, OP_MUL);
 

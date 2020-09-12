@@ -89,7 +89,24 @@ private:
      * @return (possibly) reduced expression.
      */
     Expression *reduceVariableExpr(Variable *leftVar, Variable *rightVar);
+    /**
+     * If both left and right operations are identical than the expresion may be
+     * reduced further trivially. ie: (a - b) - (a -b) can be reduced to 0.
+     *
+     * @param leftOp Left operation
+     * @param rightOp right operation
+     * @return new expression.
+     */
     Expression *reduceIdenticalOperationExpr(Operation *leftOp, Operation *rightOp);
+    /**
+     * If both sides of the operation are operations and if they share a common denominator,
+     * than they can be factored in, for instance 3(a - b) + 4(a - b) can easily be turned to
+     * 7(a - b) or 4a * 3a = 12 * a ^ 2.
+     *
+     * @param leftOp Left operation
+     * @param rightOp
+     * @return
+     */
     Operation *reduceFactorableOperationExpr(Operation *leftOp, Operation *rightOp);
     /**
      * If evaluated expression pointers are *created* during evaluation
