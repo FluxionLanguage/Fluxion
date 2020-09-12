@@ -110,7 +110,7 @@ Operation *Operation::reduceFactorableOperationExpr(Operation *leftOp, Operation
     differentLeft = (*same == *leftOp->left) ? leftOp->right : leftOp->left;
     differentRight = (*same == *rightOp->left) ? rightOp->right : rightOp->left;
     // Build the multiplicand
-    Operation *multiplicand = new Operation(differentLeft, differentRight, this->opType);
+    auto *multiplicand = new Operation(differentLeft, differentRight, this->opType);
     // We should also evaluate the multiplicand since it may reduce further, in case grandchildren have a
     // Reducible relationship, ie 5x + 3x = (5 + 3)x = 8x or similar.
     Expression *multiplicandEvaluated = multiplicand->evaluate();
