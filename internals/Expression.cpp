@@ -1,7 +1,9 @@
 #include <cmath>
 #include "Expression.h"
 
-
+Expression * Expression::evaluate() {
+    return this;
+}
 
 bool Expression::operator==(const Expression &other) const {
     return this->_hash == other._hash;
@@ -12,13 +14,17 @@ Constant::Constant(double value) : value(value){
     this->_hash = hashValue(value);
 }
 
+double Constant::getValue() {
+    return this->value;
+}
+
 Variable::Variable(const std::string& name) : name(name) {
     this->type = EXPRESSION_VARIABLE;
     this->_hash = hashValue(name);
 }
 
-Expression * Expression::evaluate() {
-    return this;
+std::string Variable::getVariableName() {
+    return this->name;
 }
 
 Operation::Operation(Expression *left, Expression *right, OperationType opType) : left(left), right(right), opType(opType) {

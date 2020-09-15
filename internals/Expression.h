@@ -15,7 +15,8 @@ enum OperationType {
     OP_MIN,
     OP_DIV,
     OP_MUL,
-    OP_EXP
+    OP_EXP,
+    OP_ERR // Error, undefined operation.
 };
 
 /**
@@ -36,8 +37,7 @@ public:
 class Constant : public Expression {
     double value; // If it has numerical value, if not NaN.
 public:
-    Constant(double value);
-    Expression *evaluate();
+    explicit Constant(double value);
     double getValue();
 };
 
@@ -48,8 +48,7 @@ public:
 class Variable : public Expression {
     std::string name;
 public:
-    Variable(const std::string& name);
-    Expression *evaluate();
+    explicit Variable(const std::string& name);
     std::string getVariableName();
 };
 
