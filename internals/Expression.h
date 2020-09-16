@@ -28,6 +28,7 @@ public:
     ExpressionType type;
     Expression *evaluate();
     bool operator== (const Expression& other) const;
+    virtual std::string getString();
 };
 
 
@@ -39,6 +40,7 @@ class Constant : public Expression {
 public:
     explicit Constant(double value);
     double getValue();
+    std::string getString() override;
 };
 
 
@@ -50,6 +52,7 @@ class Variable : public Expression {
 public:
     explicit Variable(const std::string& name);
     std::string getVariableName();
+    std::string getString() override;
 };
 
 /**
@@ -118,9 +121,9 @@ private:
 public:
     Operation(Expression *left, Expression *right, OperationType opType);
     Expression *evaluate();
-
     Expression *left;
     Expression *right;
+    std::string getString() override;
 };
 
 #endif //FLUXION_EXPRESSION_H

@@ -24,14 +24,6 @@ bool contains(const char *chars, const std::string& str) {
     return false;
 }
 
-template<typename T>
-std::vector<T> reverseVector(std::vector<T> vector) {
-    std::vector<T> newVector;
-    while (!vector.empty()) {
-        newVector.push_back(vector.pop_back()); // THIS IS A DESTRUCTIVE OPERATION!
-    }
-    return std::vector<T>();
-}
 
 namespace typing {
     namespace { // PRIVATE functions of typing.

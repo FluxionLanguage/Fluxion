@@ -15,7 +15,13 @@ std::string hashValue(const std::string &value);
  */
 bool contains(const char *chars, const std::string& str);
 template <typename T>
-std::vector<T> reverseVector(std::vector<T> vector);
+std::vector<T> reverseVector(std::vector<T> vector) {
+    std::vector<T> newVector;
+    for (int i = vector.size(); i > 0; i--) {
+        newVector.push_back(vector[i]);
+    }
+    return newVector;
+}
 namespace typing {
     bool isNumber(const char *c_str);
     bool isIdentifier(const char *c_str);

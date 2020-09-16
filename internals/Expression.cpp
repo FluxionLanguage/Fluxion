@@ -9,6 +9,10 @@ bool Expression::operator==(const Expression &other) const {
     return this->_hash == other._hash;
 }
 
+std::string Expression::getString() {
+    return std::string();
+}
+
 Constant::Constant(double value) : value(value){
     this->type = EXPRESSION_VARIABLE;
     this->_hash = hashValue(value);
@@ -18,12 +22,20 @@ double Constant::getValue() {
     return this->value;
 }
 
+std::string Constant::getString() {
+    return std::to_string(this->value);
+}
+
 Variable::Variable(const std::string& name) : name(name) {
     this->type = EXPRESSION_VARIABLE;
     this->_hash = hashValue(name);
 }
 
 std::string Variable::getVariableName() {
+    return this->name;
+}
+
+std::string Variable::getString() {
     return this->name;
 }
 
@@ -176,4 +188,27 @@ Expression * Operation::evaluate() {
     return newExpression;
 }
 
-
+std::string Operation::getString() {
+    std::string operatorString;
+    switch (this->opType) {
+        case OP_ADD:
+            operatorString = "+";
+            break;
+        case OP_MIN:
+            operatorString = "-";
+            break;
+        case OP_DIV:
+            operatorString = "/";
+            break;
+        case OP_MUL:
+            operatorString = "*";
+            break;
+        case OP_EXP:
+            operatorString = "^";
+            break;
+        case OP_ERR:
+            operatorString = "!";
+            break;
+    }
+    return "(" + left->getString() + " " + operatorString + " " + right->getString() + ")";
+}
