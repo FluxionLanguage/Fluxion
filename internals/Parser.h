@@ -46,10 +46,10 @@ public:
 
 class VariableToken : public Token {
 private:
-    const char *name; // Variables has single character names.
+    std::string name; // Variables has single character names.
 public:
     const char *getName() const;
-    VariableToken(int location, int index, const char *name);
+    VariableToken(int location, int index, std::string name);
 };
 
 class OperatorToken : public Token {

@@ -25,7 +25,7 @@ void debug::printToken(Token *token) {
     }
 }
 
-void debug::printTokens(std::vector<Token*> tokens) {
+void debug::printTokens(const std::vector<Token*>& tokens) {
     std::cout << "DEBUG\nINDEX | LOCATION |   TYPE   |" << "\n";
     for (auto token : tokens) {
         std::cout << token->getIndex() << "\t" << token->getLocation() << "\t";

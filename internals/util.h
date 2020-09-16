@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <string>
+#include <vector>
 
 std::string hashValue(double value);
 std::string hashValue(const std::string &value);
@@ -13,7 +14,8 @@ std::string hashValue(const std::string &value);
  * @return
  */
 bool contains(const char *chars, const std::string& str);
-
+template <typename T>
+std::vector<T> reverseVector(std::vector<T> vector);
 namespace typing {
     bool isNumber(const char *c_str);
     bool isIdentifier(const char *c_str);

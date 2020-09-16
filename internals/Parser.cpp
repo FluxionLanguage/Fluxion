@@ -1,3 +1,4 @@
+#include <cstring>
 #include "Parser.h"
 
 TokenType Token::getTokenType() const {
@@ -27,10 +28,10 @@ double ConstantToken::getValue() const {
 
 
 const char *VariableToken::getName() const {
-    return this->name;
+    return this->name.c_str();
 }
 
-VariableToken::VariableToken(int location, int index, const char *name) : name(name), Token(TOKEN_VARIABLE, location, index) {
+VariableToken::VariableToken(int location, int index, std::string name) : name(name), Token(TOKEN_VARIABLE, location, index) {
 }
 
 
@@ -51,7 +52,7 @@ void Parser::consume() {
 }
 
 void Parser::pop() {
-    currentToken.append(instructionPointer);
+    currentToken = currentToken + *instructionPointer;
     consume();
 }
 
@@ -93,9 +94,9 @@ TokenType Parser::determineTokenType() {
 }
 
 TokenType Parser::consumeToken() {
-    while (!isTerminator()) {
+    do {
         pop();
-    }
+    } while (!isTerminator()); // Do while so we can get terminating tokens too.
     return determineTokenType();
 }
 
@@ -106,7 +107,8 @@ void Parser::consumeRedundant() {
 }
 
 ParsingStatus Parser::parseToken() {
-    TokenType currentTokenType = consumeToken(); // This sets the currentToken to the string rep of the token.
+    TokenType currentTokenType;
+    currentTokenType = consumeToken(); // This sets the currentToken to the string rep of the token.
     Token *newToken;
     int index = tokens.size();
     int location = (long) (instructionPointer - source);
@@ -116,7 +118,7 @@ ParsingStatus Parser::parseToken() {
             newToken = new ConstantToken(location, index, std::atof(currentToken.c_str()));
             break;
         case TOKEN_VARIABLE:
-            newToken = new VariableToken(location, index, currentToken.c_str());
+            newToken = new VariableToken(location, index, currentToken);
             break;
         case TOKEN_OPERATOR:
             newToken = new OperatorToken(location, index, determineOperatorType());
