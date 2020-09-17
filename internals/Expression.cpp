@@ -23,7 +23,7 @@ double Constant::getValue() {
 }
 
 std::string Constant::getString() {
-    return std::to_string(this->value);
+    return typing::prettyPrintNumber(this->value);
 }
 
 Variable::Variable(const std::string& name) : name(name) {

@@ -5,7 +5,7 @@
 #include "internals/Compiler.h"
 #include "internals/Expression.h"
 
-void fluxion::interpret(const char *source) {
+std::string fluxion::interpret(const char *source) {
     Parser parser {source};
     ParsingStatus status = parser.parse();
     std::vector<Token*> tokens = parser.getTokens();
@@ -15,11 +15,12 @@ void fluxion::interpret(const char *source) {
         if (cStatus != COMPILATION_FAILED) {
             Expression *expression = compiler.getRoot();
             expression = expression->evaluate();
-            std::cout << expression->getString();
+            return expression->getString();
         } else {
             std::cerr << "CompilationException: Compilation Failed.\n";
         }
     } else {
         std::cerr << "ParsingException: Parsing failed.\n";
     }
+    return "";
 }

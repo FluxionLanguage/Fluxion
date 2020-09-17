@@ -17,7 +17,7 @@ bool contains(const char *chars, const std::string& str);
 template <typename T>
 std::vector<T> reverseVector(std::vector<T> vector) {
     std::vector<T> newVector;
-    for (int i = vector.size(); i > 0; i--) {
+    for (int i = vector.size() - 1; i >= 0; i--) {
         newVector.push_back(vector[i]);
     }
     return newVector;
@@ -27,6 +27,7 @@ namespace typing {
     bool isIdentifier(const char *c_str);
     bool isOperator(const char *c_str);
     bool isWhiteSpace(const char *c_str);
+    std::string prettyPrintNumber(double number);
 }
 
 #endif //FLUXION_UTIL_H

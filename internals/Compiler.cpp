@@ -3,10 +3,10 @@
 #include <utility>
 
 Compiler::Compiler(std::vector<Token*> tokens) : root(nullptr), status(COMPILATION_SUCCESSFUL) {
-    this->tokens = reverseVector(std::move(tokens)); // We could make this work in reverse.
+    this->tokens = reverseVector(tokens); // We could make this work in reverse.
     this->orderOfOperations = (OperationTuple*) malloc(PRECEDENCE_LEVEL_COUNT * sizeof(OperationTuple));
-    this->orderOfOperations[0] = {OP_ADD, OP_MUL};
-    this->orderOfOperations[1] = {OP_MIN, OP_DIV};
+    this->orderOfOperations[0] = {OP_ADD, OP_MIN};
+    this->orderOfOperations[1] = {OP_MUL, OP_DIV};
     this->orderOfOperations[2] = {OP_EXP, OP_EXP};
 }
 
@@ -42,7 +42,7 @@ Expression *Compiler::compile(int tokenStartIndex, int tokenStopIndex, int prece
             currentOpType = dynamic_cast<OperatorToken*>(token)->getOperationType();
             if (this->orderOfOperations[precedenceLevel].isOneOf(currentOpType)) {
                 // Left and right is reversed since we are working on a reverse list.
-                return new Operation(compile(i, tokenStopIndex, 0), compile(tokenStartIndex, i, 0), currentOpType);
+                return new Operation(compile(i + 1, tokenStopIndex, 0), compile(tokenStartIndex, i, 0), currentOpType);
             }
         }
     }

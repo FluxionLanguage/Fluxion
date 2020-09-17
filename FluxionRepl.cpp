@@ -7,6 +7,6 @@ int main() {
     do {
         std::cout << "?: ";
         getline(std::cin, line);
-        fluxion::interpret(line.c_str());
+        std::cout << fluxion::interpret(line.c_str()) << std::endl;
     } while (line != "exit");
 }

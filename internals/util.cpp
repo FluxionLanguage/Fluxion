@@ -1,3 +1,4 @@
+#include <cmath>
 #include "util.h"
 
 std::string hashValue(double value) {
@@ -89,6 +90,15 @@ namespace typing {
             return false;
         } else {
             return contains("\n\t ", c_str);
+        }
+    }
+
+    std::string prettyPrintNumber(double number) {
+        double integer_part;
+        if (std::modf(number, &integer_part) == 0.0) { // If it is actually an integer.
+            return std::to_string((int) integer_part);
+        } else {
+            return std::to_string(number);
         }
     }
 };
