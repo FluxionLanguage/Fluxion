@@ -14,8 +14,7 @@ std::string fluxion::interpret(const char *source) {
         CompilationStatus cStatus = compiler.compile();
         if (cStatus != COMPILATION_FAILED) {
             Expression *expression = compiler.getRoot();
-            expression = expression->evaluate();
-            return expression->getString();
+            return expression->evaluate()->getString();
         } else {
             std::cerr << "CompilationException: Compilation Failed.\n";
         }

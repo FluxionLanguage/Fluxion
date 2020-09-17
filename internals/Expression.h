@@ -26,7 +26,8 @@ class Expression {
 public:
     std::string _hash;
     ExpressionType type;
-    Expression *evaluate();
+
+    virtual Expression *evaluate();
     bool operator== (const Expression& other) const;
     virtual std::string getString();
 };
@@ -120,7 +121,7 @@ private:
     void freeEvaluationPointers(Expression *leftEvaluated, Expression *rightEvaluated);
 public:
     Operation(Expression *left, Expression *right, OperationType opType);
-    Expression *evaluate();
+    Expression *evaluate() override;
     Expression *left;
     Expression *right;
     std::string getString() override;

@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 #include "Expression.h"
 
 Expression * Expression::evaluate() {
@@ -14,7 +15,7 @@ std::string Expression::getString() {
 }
 
 Constant::Constant(double value) : value(value){
-    this->type = EXPRESSION_VARIABLE;
+    this->type = EXPRESSION_CONSTANT;
     this->_hash = hashValue(value);
 }
 
@@ -54,10 +55,10 @@ Operation::Operation(Expression *left, Expression *right, OperationType opType) 
 
 bool Operation::isOperationFactorable(Operation *leftOp, Operation *rightOp) {
     return (this->opType != OP_EXP // Since exponentiation isn't distributive.
-            &&*leftOp->left == *rightOp->left
+            &&(*leftOp->left == *rightOp->left
             || *leftOp->left == *rightOp->right
-            || *leftOp->right == *rightOp->left
-            || *leftOp->right == *rightOp->left);
+            || *leftOp->right == *rightOp->right
+            || *leftOp->right == *rightOp->left));
 }
 
 Constant * Operation::reduceConstantExpr(Expression *leftEvaluated, Expression *rightEvaluated) {
@@ -75,7 +76,7 @@ Constant * Operation::reduceConstantExpr(Expression *leftEvaluated, Expression *
             newValue = leftC->getValue() / rightC->getValue();
             break;
         case OP_MUL:
-            newValue = leftC->getValue() + rightC->getValue();
+            newValue = leftC->getValue() * rightC->getValue();
             break;
         case OP_EXP:
             newValue = pow(leftC->getValue(), rightC->getValue());
@@ -179,6 +180,8 @@ Expression * Operation::evaluate() {
             } else if (isOperationFactorable(leftOp, rightOp)) {
                 return reduceFactorableOperationExpr(leftOp, rightOp);
                 // Likewise, left and right pointers must be intact here.
+            } else {
+                return new Operation(leftEvaluated, rightEvaluated, this->opType);
             }
         }
         freeEvaluationPointers(leftEvaluated, rightEvaluated);
