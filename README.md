@@ -1,3 +1,3 @@
 # Fluxion
 
-> A computer algebra library built in standard C++
+A basic computer algebra library built in standard C++ that supports expression simplification.
